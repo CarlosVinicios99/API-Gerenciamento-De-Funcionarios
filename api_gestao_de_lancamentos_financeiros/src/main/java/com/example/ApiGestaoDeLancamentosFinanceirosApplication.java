@@ -9,5 +9,4 @@ public class ApiGestaoDeLancamentosFinanceirosApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ApiGestaoDeLancamentosFinanceirosApplication.class, args);
 	}
-
 }
