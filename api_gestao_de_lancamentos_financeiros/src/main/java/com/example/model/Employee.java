@@ -20,16 +20,16 @@ public class Employee implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name = "full_name", nullable = false)
+	@Column(name = "full_name", nullable = false, length = 100)
 	private String fullName;
 	
-	@Column(nullable = false, unique = true)
+	@Column(nullable = false, unique = true, length = 80)
 	private String email;
 	
-	@Column(nullable = false)
+	@Column(nullable = false, length = 8)
 	private String agency;
 	
-	@Column(name = "checking_account", nullable = false, unique = true)
+	@Column(name = "checking_account", nullable = false, unique = true, length = 15)
 	private String checkingAccount;
 	
 	
