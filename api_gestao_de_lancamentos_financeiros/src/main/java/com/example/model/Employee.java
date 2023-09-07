@@ -100,10 +100,10 @@ public class Employee implements Serializable {
 		this.contracts = contracts;
 	}
 	
-	
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(agency, checkingAccount, email, fullName, id);
+		return Objects.hash(agency, checkingAccount, contracts, email, fullName, id);
 	}
 
 	@Override
@@ -116,11 +116,11 @@ public class Employee implements Serializable {
 			return false;
 		Employee other = (Employee) obj;
 		return Objects.equals(agency, other.agency) && Objects.equals(checkingAccount, other.checkingAccount)
-				&& Objects.equals(email, other.email) && Objects.equals(fullName, other.fullName)
-				&& Objects.equals(id, other.id);
+				&& Objects.equals(contracts, other.contracts) && Objects.equals(email, other.email)
+				&& Objects.equals(fullName, other.fullName) && Objects.equals(id, other.id);
 	}
 	
-	
+
 	public void addContract(Contract contract) {
 		this.contracts.add(contract);
 	}

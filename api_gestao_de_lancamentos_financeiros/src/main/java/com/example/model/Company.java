@@ -11,6 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -38,18 +39,21 @@ public class Company implements Serializable {
 	@OneToMany(cascade = CascadeType.MERGE)
 	private List<Employee> employees;
 	
+	@OneToOne(cascade = CascadeType.MERGE)
+	private Account account;
 	
 	public Company() {
 		
 	}
 
-	public Company(Long id, String name, String email, String password, String cnpj, List<Employee> employees) {
+	public Company(Long id, String name, String email, String password, String cnpj, List<Employee> employees, Account account) {
 		this.id = id;
 		this.name = name;
 		this.email = email;
 		this.password = password;
 		this.cnpj = cnpj;
 		this.employees = employees;
+		this.account = account;
 	}
 
 	public Long getId() {
@@ -100,10 +104,18 @@ public class Company implements Serializable {
 		this.employees = employees;
 	}
 	
+	public Account getAccount() {
+		return account;
+	}
 
+	public void setAccount(Account account) {
+		this.account = account;
+	}
+
+	
 	@Override
 	public int hashCode() {
-		return Objects.hash(cnpj, email, id, name, password);
+		return Objects.hash(account, cnpj, email, employees, id, name, password);
 	}
 
 	@Override
@@ -115,8 +127,10 @@ public class Company implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Company other = (Company) obj;
-		return Objects.equals(cnpj, other.cnpj) && Objects.equals(email, other.email) && Objects.equals(id, other.id)
-				&& Objects.equals(name, other.name) && Objects.equals(password, other.password);
+		return Objects.equals(account, other.account) && Objects.equals(cnpj, other.cnpj)
+			&& Objects.equals(email, other.email) && Objects.equals(employees, other.employees)
+			&& Objects.equals(id, other.id) && Objects.equals(name, other.name)
+			&& Objects.equals(password, other.password);
 	}
 	
 	
