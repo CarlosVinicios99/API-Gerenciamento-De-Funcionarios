@@ -1,13 +1,16 @@
 package com.example.model;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -32,17 +35,21 @@ public class Company implements Serializable {
 	@Column(nullable = false, unique = true, length = 20)
 	private String cnpj;
 	
+	@OneToMany(cascade = CascadeType.MERGE)
+	private List<Employee> employees;
+	
 	
 	public Company() {
 		
 	}
 
-	public Company(Long id, String name, String email, String password, String cnpj) {
+	public Company(Long id, String name, String email, String password, String cnpj, List<Employee> employees) {
 		this.id = id;
 		this.name = name;
 		this.email = email;
 		this.password = password;
 		this.cnpj = cnpj;
+		this.employees = employees;
 	}
 
 	public Long getId() {
@@ -84,6 +91,15 @@ public class Company implements Serializable {
 	public void setCnpj(String cnpj) {
 		this.cnpj = cnpj;
 	}
+
+	public List<Employee> getEmployees() {
+		return employees;
+	}
+
+	public void setEmployees(List<Employee> employees) {
+		this.employees = employees;
+	}
+	
 
 	@Override
 	public int hashCode() {
