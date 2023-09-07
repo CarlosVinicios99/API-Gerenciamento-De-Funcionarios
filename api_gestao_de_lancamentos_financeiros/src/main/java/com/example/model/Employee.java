@@ -1,13 +1,16 @@
 package com.example.model;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -32,17 +35,20 @@ public class Employee implements Serializable {
 	@Column(name = "checking_account", nullable = false, unique = true, length = 15)
 	private String checkingAccount;
 	
+	@OneToMany(cascade = CascadeType.MERGE)
+	private List<Contract> contracts;
 	
 	public Employee() {
 		
 	}
 
-	public Employee(Long id, String fullName, String email, String agency, String checkingAccount) {
+	public Employee(Long id, String fullName, String email, String agency, String checkingAccount, List<Contract> contracts) {
 		this.id = id;
 		this.fullName = fullName;
 		this.email = email;
 		this.agency = agency;
 		this.checkingAccount = checkingAccount;
+		this.contracts = contracts;
 	}
 
 
@@ -85,7 +91,15 @@ public class Employee implements Serializable {
 	public void setCheckingAccount(String checkingAccount) {
 		this.checkingAccount = checkingAccount;
 	}
+	
+	public List<Contract> getContracts() {
+		return contracts;
+	}
 
+	public void setContracts(List<Contract> contracts) {
+		this.contracts = contracts;
+	}
+	
 	
 	@Override
 	public int hashCode() {
@@ -104,6 +118,15 @@ public class Employee implements Serializable {
 		return Objects.equals(agency, other.agency) && Objects.equals(checkingAccount, other.checkingAccount)
 				&& Objects.equals(email, other.email) && Objects.equals(fullName, other.fullName)
 				&& Objects.equals(id, other.id);
+	}
+	
+	
+	public void addContract(Contract contract) {
+		this.contracts.add(contract);
+	}
+	
+	public void removeContract(Contract contract) {
+		this.contracts.remove(contract);
 	}
 	
 }

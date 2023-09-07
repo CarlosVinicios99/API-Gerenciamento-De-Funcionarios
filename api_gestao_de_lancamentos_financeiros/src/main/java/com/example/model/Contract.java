@@ -7,7 +7,10 @@ import java.util.Objects;
 import com.example.model.enums.Level;
 import com.example.model.enums.Status;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -23,18 +26,25 @@ public class Contract implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@Column(nullable = false, length = 60)
 	private String office;
 	
+	@Enumerated(EnumType.STRING)
 	private Level level;
 	
+	@Column(nullable = false)
 	private Double salaryPerMonth;
 	
+	@Column(nullable = false)
 	private Integer durationInMonths;
 	
+	@Column(nullable = false)
 	private Date startDate;
 	
+	@Enumerated(EnumType.STRING)
 	private Status status;
 	
+	@Column(nullable = true)
 	private Date endDate;
 	
 	

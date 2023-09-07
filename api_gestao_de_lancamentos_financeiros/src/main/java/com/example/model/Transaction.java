@@ -6,7 +6,10 @@ import java.util.Objects;
 
 import com.example.model.enums.TransactionType;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,10 +25,13 @@ public class Transaction implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@Enumerated(EnumType.STRING)
 	private TransactionType type;
 	
+	@Column(nullable = false)
 	private Date transactionDate;
 	
+	@Column(nullable = false)
 	private Double amount;
 	
 	
