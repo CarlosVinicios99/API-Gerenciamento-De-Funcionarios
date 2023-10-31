@@ -1,8 +1,10 @@
-package com.example.model;
+package com.example.employees;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
+
+import com.example.contracts.Contract;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

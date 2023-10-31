@@ -1,4 +1,4 @@
-package com.example.model.enums;
+package com.example.transactions;
 
 public enum TransactionType {
 	DEPOSIT,

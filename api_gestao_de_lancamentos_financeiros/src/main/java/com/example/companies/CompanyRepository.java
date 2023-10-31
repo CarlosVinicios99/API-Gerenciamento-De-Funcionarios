@@ -1,8 +1,6 @@
-package com.example.repository;
+package com.example.companies;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import com.example.model.Company;
 
 public interface CompanyRepository extends JpaRepository<Company, Long>{
 

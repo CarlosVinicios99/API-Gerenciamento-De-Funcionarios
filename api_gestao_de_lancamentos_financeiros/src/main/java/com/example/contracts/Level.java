@@ -1,4 +1,4 @@
-package com.example.model.enums;
+package com.example.contracts;
 
 public enum Level {
 	INTERN,

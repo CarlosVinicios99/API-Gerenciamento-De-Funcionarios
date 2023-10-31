@@ -1,11 +1,8 @@
-package com.example.model;
+package com.example.contracts;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
-
-import com.example.model.enums.Level;
-import com.example.model.enums.Status;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
