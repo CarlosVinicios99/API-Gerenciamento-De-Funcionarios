@@ -1,8 +1,10 @@
-package com.example.transactions;
+package com.example.transactions.model;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
+
+import com.example.transactions.model.enums.TransactionType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

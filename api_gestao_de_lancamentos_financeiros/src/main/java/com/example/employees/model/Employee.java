@@ -1,10 +1,10 @@
-package com.example.employees;
+package com.example.employees.model;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
-import com.example.contracts.Contract;
+import com.example.contracts.model.Contract;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -12,6 +12,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -25,19 +26,20 @@ public class Employee implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name = "full_name", nullable = false, length = 100)
+	@Column(name = "full_name")
 	private String fullName;
 	
-	@Column(nullable = false, unique = true, length = 80)
+	@Column()
 	private String email;
 	
-	@Column(nullable = false, length = 8)
+	@Column()
 	private String agency;
 	
-	@Column(name = "checking_account", nullable = false, unique = true, length = 15)
+	@Column(name = "checking_account")
 	private String checkingAccount;
 	
 	@OneToMany(cascade = CascadeType.MERGE)
+	@JoinColumn(name = "id_employee")
 	private List<Contract> contracts;
 	
 	public Employee() {

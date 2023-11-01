@@ -1,4 +1,4 @@
-package com.example.contracts;
+package com.example.contracts.model.enums;
 
 public enum Status {
 	CURRENT,

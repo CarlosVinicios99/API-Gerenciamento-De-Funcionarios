@@ -1,4 +1,4 @@
-package com.example.accounts;
+package com.example.accounts.model;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -21,13 +21,13 @@ public class Account implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name = "account_number", nullable = false, unique = true, length = 20)
+	@Column(name = "account_number")
 	private String accountNumber;
 	
-	@Column(name = "creation_date", nullable = false)
+	@Column(name = "creation_date")
 	private Date creationDate;
 	
-	@Column(nullable = false)
+	@Column()
 	private Double balance;
 	
 	
