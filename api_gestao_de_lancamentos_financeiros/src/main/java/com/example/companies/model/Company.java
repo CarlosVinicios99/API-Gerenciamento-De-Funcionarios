@@ -1,6 +1,7 @@
 package com.example.companies.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -44,22 +45,22 @@ public class Company implements Serializable {
 	
 	@OneToMany(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "id_company")
-	private List<Employee> employees;
+	private List<Employee> employees = new ArrayList<>();
 	
 	@OneToMany(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "id_company")
-	private List<Contract> contracts;
+	private List<Contract> contracts = new ArrayList<>();
 	
 	@OneToMany(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "id_company")
-	private List<Transaction> transactions;
+	private List<Transaction> transactions = new ArrayList<>();
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	private Account account;
 	
 	
 	public Company() {
-		
+	
 	}
 	
 	public Company(Long id, String name, String email, String password, String cnpj, List<Employee> employees,
