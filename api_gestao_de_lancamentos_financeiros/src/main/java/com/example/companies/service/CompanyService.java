@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.example.companies.DTO.UpdateCompanyDTO;
 import com.example.companies.model.Company;
 import com.example.companies.repository.CompanyRepository;
 
@@ -48,6 +49,42 @@ public class CompanyService {
 		}
 		catch(Exception error) {
 			logger.log(Level.SEVERE, "Erro ao buscar uma empresa por ID ", error.getMessage());
+			return ResponseEntity.internalServerError().build();
+		}
+	}
+	
+	//adicionar busca por varias empresas com paginação
+	
+	public ResponseEntity<Company> updateCompany(UpdateCompanyDTO company){
+		logger.log(Level.INFO, "Atualizando as informações de uma empresa");
+		try {
+			Company updatedCompany = companyRepository.findById(company.id()).get();
+			if(updatedCompany == null) {
+				logger.log(Level.WARNING, "Nenhuma empresa encontrada!");
+				return ResponseEntity.noContent().build();
+			}
+			
+			if(!company.email().isEmpty())
+				updatedCompany.setEmail(company.email());
+			
+			if(!company.name().isEmpty()) {
+				updatedCompany.setName(company.name());
+			}
+			
+			if(!company.cnpj().isEmpty()) {
+				updatedCompany.setCnpj(company.cnpj());
+			}
+			
+			if(!company.password().isEmpty()) {
+				updatedCompany.setPassword(company.password());
+			}
+			
+			companyRepository.save(updatedCompany);
+			return ResponseEntity.ok().build();
+					
+		}
+		catch(Exception error) {
+			logger.log(Level.SEVERE, "Erro ao atualizar informações de uma empresa ", error.getMessage());
 			return ResponseEntity.internalServerError().build();
 		}
 	}

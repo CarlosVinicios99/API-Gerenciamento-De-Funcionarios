@@ -1,14 +1,9 @@
 package com.example.companies.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import com.example.accounts.model.Account;
-import com.example.contracts.model.Contract;
-import com.example.employees.model.Employee;
-import com.example.transactions.model.Transaction;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -16,8 +11,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -43,56 +36,23 @@ public class Company implements Serializable {
 	@Column()
 	private String cnpj;
 	
-	@OneToMany(cascade = CascadeType.MERGE)
-	@JoinColumn(name = "id_company")
-	private List<Employee> employees = new ArrayList<>();
-	
-	@OneToMany(cascade = CascadeType.MERGE)
-	@JoinColumn(name = "id_company")
-	private List<Contract> contracts = new ArrayList<>();
-	
-	@OneToMany(cascade = CascadeType.MERGE)
-	@JoinColumn(name = "id_company")
-	private List<Transaction> transactions = new ArrayList<>();
-	
 	@OneToOne(cascade = CascadeType.ALL)
 	private Account account;
-	
 	
 	public Company() {
 	
 	}
 	
-	public Company(Long id, String name, String email, String password, String cnpj, List<Employee> employees,
-			List<Contract> contracts, List<Transaction> transactions, Account account) {
+	public Company(Long id, String name, String email, String password, String cnpj, Account account) {
 		this.id = id;
 		this.name = name;
 		this.email = email;
 		this.password = password;
 		this.cnpj = cnpj;
-		this.employees = employees;
-		this.contracts = contracts;
-		this.transactions = transactions;
 		this.account = account;
 	}
 
 	
-	public List<Transaction> getTransactions() {
-		return transactions;
-	}
-
-	public void setTransactions(List<Transaction> transactions) {
-		this.transactions = transactions;
-	}
-
-	public List<Contract> getContracts() {
-		return contracts;
-	}
-
-	public void setContracts(List<Contract> contracts) {
-		this.contracts = contracts;
-	}
-
 	public Long getId() {
 		return id;
 	}
@@ -133,14 +93,6 @@ public class Company implements Serializable {
 		this.cnpj = cnpj;
 	}
 
-	public List<Employee> getEmployees() {
-		return employees;
-	}
-
-	public void setEmployees(List<Employee> employees) {
-		this.employees = employees;
-	}
-	
 	public Account getAccount() {
 		return account;
 	}
@@ -152,7 +104,7 @@ public class Company implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(account, cnpj, contracts, email, employees, id, name, password, transactions);
+		return Objects.hash(account, cnpj, email, id, name, password);
 	}
 
 	@Override
@@ -165,35 +117,8 @@ public class Company implements Serializable {
 			return false;
 		Company other = (Company) obj;
 		return Objects.equals(account, other.account) && Objects.equals(cnpj, other.cnpj)
-				&& Objects.equals(contracts, other.contracts) && Objects.equals(email, other.email)
-				&& Objects.equals(employees, other.employees) && Objects.equals(id, other.id)
-				&& Objects.equals(name, other.name) && Objects.equals(password, other.password)
-				&& Objects.equals(transactions, other.transactions);
-	}
-	
-
-	public void addEmployee(Employee employee) {
-		this.employees.add(employee);
-	}
-	
-	public void removeEmployee(Employee employee) {
-		this.employees.remove(employee);
-	}
-	
-	public void addContract(Contract contract) {
-		this.contracts.add(contract);
-	}
-	
-	public void removeContract(Contract contract) {
-		this.contracts.remove(contract);
-	}
-	
-	public void addTransaction(Transaction transaction) {
-		this.transactions.add(transaction);
-	}
-	
-	public void removeTransaction(Transaction transaction) {
-		this.transactions.remove(transaction);
+			&& Objects.equals(email, other.email)&& Objects.equals(id, other.id)
+			&& Objects.equals(name, other.name) && Objects.equals(password, other.password);
 	}
 	
 }
