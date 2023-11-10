@@ -4,6 +4,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +42,7 @@ public class CompanyService {
 		}
 	}
 	
-	public ResponseEntity<Company> findById(Long id){
+	public ResponseEntity<Company> findCompanyById(Long id){
 		logger.log(Level.INFO, "Buscando uma empresa por ID");
 		try {
 			Company searchedCompany = companyRepository.findById(id).get();
@@ -53,10 +58,22 @@ public class CompanyService {
 		}
 	}
 	
-	//adicionar busca por varias empresas com paginação
+	public ResponseEntity<Page<Company>> findAllCompanies(int page, int limit, String direction){
+		logger.log(Level.INFO, "Buscando todas as empresas cadastradas!");
+		try {
+			Direction sortDirection = "desc".equalsIgnoreCase(direction) ? Direction.DESC : Direction.ASC;
+			Pageable pageable = PageRequest.of(page, limit, Sort.by(sortDirection, "id"));
+			Page<Company> products = companyRepository.findAll(pageable);
+			return ResponseEntity.ok().body(products);
+		}
+		catch(Exception error) {
+			logger.log(Level.SEVERE, "Erro ao buscar uma empresa por ID ", error.getMessage());
+			return ResponseEntity.internalServerError().build();
+		}
+	}
 	
 	public ResponseEntity<Company> updateCompany(UpdateCompanyDTO company){
-		logger.log(Level.INFO, "Atualizando as informações de uma empresa");
+		logger.log(Level.INFO, "Atualizando as informações de uma empresa!");
 		try {
 			Company updatedCompany = companyRepository.findById(company.id()).get();
 			if(updatedCompany == null) {
@@ -64,8 +81,9 @@ public class CompanyService {
 				return ResponseEntity.noContent().build();
 			}
 			
-			if(!company.email().isEmpty())
+			if(!company.email().isEmpty()) {
 				updatedCompany.setEmail(company.email());
+			}
 			
 			if(!company.name().isEmpty()) {
 				updatedCompany.setName(company.name());
@@ -88,7 +106,6 @@ public class CompanyService {
 			return ResponseEntity.internalServerError().build();
 		}
 	}
-	
 	
 	public ResponseEntity<Company> deleteCompanyById(Long id){
 		logger.log(Level.INFO, "Excluindo uma empresa por ID");
