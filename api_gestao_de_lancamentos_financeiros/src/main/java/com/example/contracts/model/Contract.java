@@ -17,7 +17,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "TABLE_CONTRACTS")
+@Table(name = "table_contracts")
 public class Contract implements Serializable{
 
 	private static final long serialVersionUID = 1L;
