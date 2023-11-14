@@ -1,5 +1,4 @@
-CREATE TABLE table_transactions
-(
+CREATE TABLE table_transactions (
 	id INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,
 	transaction_date DATE NOT NULL,
 	transaction_type ENUM('DEPOSIT', 'PAYMENT') NOT NULL,

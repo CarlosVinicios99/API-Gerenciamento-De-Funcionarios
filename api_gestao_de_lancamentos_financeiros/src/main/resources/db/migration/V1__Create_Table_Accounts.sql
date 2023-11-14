@@ -1,5 +1,4 @@
-CREATE TABLE table_accounts
-(
+CREATE TABLE table_accounts(
 	id INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,
 	creation_date DATE NOT NULL,
 	account_number VARCHAR(20) NOT NULL,

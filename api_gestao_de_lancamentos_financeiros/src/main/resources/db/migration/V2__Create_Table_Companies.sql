@@ -1,5 +1,4 @@
-CREATE TABLE table_companies 
-(
+CREATE TABLE table_companies(
 	id INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,
 	name VARCHAR(60) NOT NULL,
 	email VARCHAR(80) NOT NULL,
