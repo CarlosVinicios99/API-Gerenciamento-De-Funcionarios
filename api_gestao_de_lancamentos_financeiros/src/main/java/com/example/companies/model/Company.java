@@ -11,6 +11,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -36,7 +37,8 @@ public class Company implements Serializable {
 	@Column()
 	private String cnpj;
 	
-	@OneToOne(cascade = CascadeType.MERGE)
+	@JoinColumn(name = "id_account")
+	@OneToOne(cascade = {CascadeType.DETACH, CascadeType.REMOVE})
 	private Account account;
 	
 	public Company() {

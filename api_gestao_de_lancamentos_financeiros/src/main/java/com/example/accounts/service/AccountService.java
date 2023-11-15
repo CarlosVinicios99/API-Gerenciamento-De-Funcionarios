@@ -29,8 +29,7 @@ public class AccountService {
 		this.logger.log(Level.INFO, "Criando uma conta");
 		
 		try {
-			Account newAccount = accountRepository.save(account);
-			return newAccount;
+			return accountRepository.save(account);
 		}
 		catch(Exception error) {
 			logger.log(Level.SEVERE, "Erro ao criar uma conta", error.getMessage());
