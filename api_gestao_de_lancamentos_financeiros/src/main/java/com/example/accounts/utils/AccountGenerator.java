@@ -1,4 +1,4 @@
-package com.example.utils;
+package com.example.accounts.utils;
 
 import java.security.SecureRandom;
 
