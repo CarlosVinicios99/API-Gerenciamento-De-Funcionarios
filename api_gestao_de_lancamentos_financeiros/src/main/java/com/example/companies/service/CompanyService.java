@@ -12,6 +12,8 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.example.accounts.model.Account;
+import com.example.accounts.service.AccountService;
 import com.example.companies.DTO.UpdateCompanyDTO;
 import com.example.companies.model.Company;
 import com.example.companies.repository.CompanyRepository;
@@ -25,14 +27,26 @@ public class CompanyService {
 	@Autowired
 	private CompanyRepository companyRepository;
 	
+	@Autowired
+	private AccountService accountService;
+	
 	
 	public ResponseEntity<Company> createCompany(Company newCompany){
 		logger.log(Level.INFO, "Cadastrando uma empresa");
 		try {
+			Account newAccount = accountService.createAccount();
+			if(newAccount == null) {
+				logger.log(Level.SEVERE, "Erro ao cadastrar uma empresa");
+				return ResponseEntity.internalServerError().build();
+			}
+			
+			newCompany.setAccount(newAccount);
 			Company createdCompany = companyRepository.save(newCompany);
+			
 			if(createdCompany != null) {
 				return ResponseEntity.ok().build();
 			}
+			
 			logger.log(Level.SEVERE, "Erro ao cadastrar uma empresa, informações de cadastro incorretas!");
 			return ResponseEntity.unprocessableEntity().build();
 		}

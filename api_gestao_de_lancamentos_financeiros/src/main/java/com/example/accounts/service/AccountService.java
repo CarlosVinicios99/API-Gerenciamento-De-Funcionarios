@@ -20,7 +20,7 @@ public class AccountService {
 	private AccountRepository accountRepository;
 	
 	
-	public Long createAccount() {
+	public Account createAccount() {
 		Account account = new Account();
 		account.setAccountNumber(AccountGenerator.generateAccountNumber());
 		account.setBalance(0.0);
@@ -30,11 +30,11 @@ public class AccountService {
 		
 		try {
 			Account newAccount = accountRepository.save(account);
-			return newAccount.getId();
+			return newAccount;
 		}
 		catch(Exception error) {
 			logger.log(Level.SEVERE, "Erro ao criar uma conta", error.getMessage());
-			return 0L;
+			return null;
 		}
 	}
 	

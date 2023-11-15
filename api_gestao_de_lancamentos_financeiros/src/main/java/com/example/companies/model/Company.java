@@ -36,11 +36,11 @@ public class Company implements Serializable {
 	@Column()
 	private String cnpj;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.MERGE)
 	private Account account;
 	
 	public Company() {
-	
+		
 	}
 	
 	public Company(Long id, String name, String email, String password, String cnpj, Account account) {
