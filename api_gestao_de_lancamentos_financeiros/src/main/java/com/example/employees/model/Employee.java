@@ -1,19 +1,13 @@
 package com.example.employees.model;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Objects;
 
-import com.example.contracts.model.Contract;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -38,21 +32,20 @@ public class Employee implements Serializable {
 	@Column(name = "checking_account")
 	private String checkingAccount;
 	
-	@OneToMany(cascade = CascadeType.MERGE)
-	@JoinColumn(name = "id_employee")
-	private List<Contract> contracts;
+	@Column(name = "id_company")
+	private Long idCompany;
 	
 	public Employee() {
 		
 	}
 
-	public Employee(Long id, String fullName, String email, String agency, String checkingAccount, List<Contract> contracts) {
+	public Employee(Long id, String fullName, String email, String agency, String checkingAccount, Long idCompany) {
 		this.id = id;
 		this.fullName = fullName;
 		this.email = email;
 		this.agency = agency;
 		this.checkingAccount = checkingAccount;
-		this.contracts = contracts;
+		this.idCompany = idCompany;
 	}
 
 
@@ -96,18 +89,17 @@ public class Employee implements Serializable {
 		this.checkingAccount = checkingAccount;
 	}
 	
-	public List<Contract> getContracts() {
-		return contracts;
+	public Long getIdCompany() {
+		return idCompany;
 	}
 
-	public void setContracts(List<Contract> contracts) {
-		this.contracts = contracts;
+	public void setIdCompany(Long idCompany) {
+		this.idCompany = idCompany;
 	}
-	
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(agency, checkingAccount, contracts, email, fullName, id);
+		return Objects.hash(agency, checkingAccount, email, fullName, id, idCompany);
 	}
 
 	@Override
@@ -120,17 +112,9 @@ public class Employee implements Serializable {
 			return false;
 		Employee other = (Employee) obj;
 		return Objects.equals(agency, other.agency) && Objects.equals(checkingAccount, other.checkingAccount)
-				&& Objects.equals(contracts, other.contracts) && Objects.equals(email, other.email)
-				&& Objects.equals(fullName, other.fullName) && Objects.equals(id, other.id);
+			&& Objects.equals(email, other.email) && Objects.equals(fullName, other.fullName)
+			&& Objects.equals(id, other.id) && Objects.equals(idCompany, other.idCompany);
 	}
 	
-
-	public void addContract(Contract contract) {
-		this.contracts.add(contract);
-	}
-	
-	public void removeContract(Contract contract) {
-		this.contracts.remove(contract);
-	}
 	
 }
