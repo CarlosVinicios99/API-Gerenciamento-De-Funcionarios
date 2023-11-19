@@ -38,9 +38,9 @@ public class CompanyController {
 	
 	@GetMapping()
 	public ResponseEntity<Page<Company>> findAllCompanies(
-		@RequestParam int page, 
-		@RequestParam int limit, 
-		@RequestParam String direction
+		@RequestParam(defaultValue = "0") int page, 
+		@RequestParam(defaultValue = "10") int limit, 
+		@RequestParam(defaultValue = "asc") String direction
 	){
 		return companyService.findAllCompanies(page, limit, direction);
 	}

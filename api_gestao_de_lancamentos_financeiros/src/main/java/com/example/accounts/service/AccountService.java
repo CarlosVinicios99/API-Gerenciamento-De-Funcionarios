@@ -37,4 +37,37 @@ public class AccountService {
 		}
 	}
 	
-}
+	public Boolean deposit(Long id, Double amount) {
+		try {
+			this.logger.log(Level.INFO, "Realizando depósito");
+			Account account = accountRepository.findById(id).get();
+			account.setBalance(account.getBalance() + amount);
+			accountRepository.save(account);
+			return true;
+		}
+		catch(Exception error) {
+			this.logger.log(Level.SEVERE, "Não foi possível realizar depósito", error.getMessage());
+			return false;
+		}
+	}
+	
+	public Boolean withdraw(Long id, Double amount) {
+		try {
+			this.logger.log(Level.INFO, "Realizando saque");
+			Account account = accountRepository.findById(id).get();
+			
+			if(account.getBalance() < amount) {
+				this.logger.log(Level.INFO, "Saldo insuficiente");
+				return false;
+			}
+			
+			account.setBalance(account.getBalance() - amount);
+			accountRepository.save(account);	
+			return true;
+		}
+		catch(Exception error) {
+			this.logger.log(Level.INFO, "Não foi possível realizar saque");
+			return false;
+		}
+	}
+} 
