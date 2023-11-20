@@ -12,7 +12,6 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.example.companies.model.Company;
 import com.example.companies.service.CompanyService;
 import com.example.employees.DTO.UpdateEmployeeDTO;
 import com.example.employees.model.Employee;
@@ -108,7 +107,22 @@ public class EmployeeService {
 		}
 	}
 	
-		
+	public ResponseEntity<Employee> deleteEmployeeById(Long id){
+		logger.log(Level.INFO, "Excluindo um funcionário por ID");
+		try {
+			Employee deletedEmployee = employeeRepository.findById(id).get();
+			if(deletedEmployee != null) {
+				logger.log(Level.WARNING, "Nenhum funcionário encontrado!");
+				return ResponseEntity.noContent().build();
+			}
+			employeeRepository.deleteById(id);
+			return ResponseEntity.ok().build();
+		}
+		catch(Exception error) {
+			logger.log(Level.SEVERE, "Erro ao excluir uma empresa por ID");
+			return ResponseEntity.internalServerError().build();
+		}
+	}
 		
 }
 
