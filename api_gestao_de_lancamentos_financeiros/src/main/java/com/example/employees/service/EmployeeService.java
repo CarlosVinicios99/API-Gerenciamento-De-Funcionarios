@@ -12,7 +12,9 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.example.companies.model.Company;
 import com.example.companies.service.CompanyService;
+import com.example.employees.DTO.UpdateEmployeeDTO;
 import com.example.employees.model.Employee;
 import com.example.employees.repository.EmployeeRepository;
 
@@ -71,9 +73,42 @@ public class EmployeeService {
 		}
 	}
 	
+	public ResponseEntity<Employee> updateEmployee(UpdateEmployeeDTO employee){
+		logger.log(Level.INFO, "Atualizando as informações de um funcionário!");
+		try {
+			Employee updatedEmployee= employeeRepository.findById(employee.id()).get();
+			if(updatedEmployee == null) {
+				logger.log(Level.WARNING, "Nenhuma empresa encontrada!");
+				return ResponseEntity.noContent().build();
+			}
+			
+			if(!employee.email().isEmpty()) {
+				updatedEmployee.setEmail(employee.email());
+			}
+			
+			if(!employee.fullName().isEmpty()) {
+				updatedEmployee.setFullName(employee.fullName());
+			}
+			
+			if(!employee.agency().isEmpty()) {
+				updatedEmployee.setAgency(employee.agency());
+			}
+			
+			if(!employee.checkingAccount().isEmpty()) {
+				updatedEmployee.setCheckingAccount(employee.checkingAccount());
+			}
+			
+			employeeRepository.save(updatedEmployee);
+			return ResponseEntity.ok().build();
+					
+		}
+		catch(Exception error) {
+			logger.log(Level.SEVERE, "Erro ao atualizar informações de um funcionário", error.getMessage());
+			return ResponseEntity.internalServerError().build();
+		}
+	}
 	
-	
-	
+		
 		
 }
 
