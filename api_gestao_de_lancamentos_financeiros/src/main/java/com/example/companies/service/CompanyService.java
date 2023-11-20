@@ -77,8 +77,8 @@ public class CompanyService {
 		try {
 			Direction sortDirection = "desc".equalsIgnoreCase(direction) ? Direction.DESC : Direction.ASC;
 			Pageable pageable = PageRequest.of(page, limit, Sort.by(sortDirection, "id"));
-			Page<Company> products = companyRepository.findAll(pageable);
-			return ResponseEntity.ok().body(products);
+			Page<Company> companies = companyRepository.findAll(pageable);
+			return ResponseEntity.ok().body(companies);
 		}
 		catch(Exception error) {
 			logger.log(Level.SEVERE, "Erro ao buscar uma empresa por ID ", error.getMessage());

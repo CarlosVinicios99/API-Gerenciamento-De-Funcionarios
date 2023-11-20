@@ -4,6 +4,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -52,4 +57,24 @@ public class EmployeeService {
 		}
 	}
 	
+	public ResponseEntity<Page<Employee>> findAllEmployeesByCompany(Long companyId, int page, int limit, String direction){
+		this.logger.log(Level.INFO, "Buscar funcionários por empresa");
+		try {
+			Direction sortDirection = "desc".equalsIgnoreCase(direction) ? Direction.DESC : Direction.ASC;
+			Pageable pageable = PageRequest.of(page, limit, Sort.by(sortDirection, "id"));
+			Page<Employee> employees = employeeRepository.findAllEmployeesByCompany(companyId, pageable);
+			return ResponseEntity.ok().body(employees);
+		}
+		catch(Exception error) {
+			this.logger.log(Level.SEVERE, "Erro ao buscar funcionários por empresa");
+			return ResponseEntity.internalServerError().build();
+		}
+	}
+	
+	
+	
+	
+		
 }
+
+
