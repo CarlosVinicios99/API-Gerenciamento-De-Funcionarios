@@ -35,6 +35,20 @@ public class ContractService {
 		}
 	}
 	
-	public ResponseEntity<Contract>
+	public ResponseEntity<Contract> findContractById(Long id){
+		this.logger.log(Level.INFO, "Buscando contrato por ID");
+		try {
+			Contract searchedContract  = contractRepository.findById(id).get();
+			if(searchedContract != null) {
+				return ResponseEntity.ok().build();
+			}
+			this.logger.log(Level.WARNING, "Nenhum contrato encontrado!");
+			return ResponseEntity.noContent().build();
+		}
+		catch(Exception error) {
+			this.logger.log(Level.SEVERE, "Erro ao buscar contrato por ID");
+			return ResponseEntity.internalServerError().build();
+		}
+	}
 	
 }
