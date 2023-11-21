@@ -47,6 +47,11 @@ public class Contract implements Serializable{
 	@Column(name = "end_date")
 	private Date endDate;
 	
+	@Column(name = "id_company")
+	private Long companyId;
+	
+	@Column(name = "id_employee")
+	private Long employeeId;
 	
 	public Contract() {
 		
@@ -54,7 +59,7 @@ public class Contract implements Serializable{
 
 
 	public Contract(Long id, String office, Level level, Double salaryPerMonth, Integer durationInMonths,
-		Date startDate, Status status, Date endDate) {
+		Date startDate, Status status, Date endDate, Long companyId, Long employeeId) {
 			this.id = id;
 			this.office = office;
 			this.level = level;
@@ -63,6 +68,8 @@ public class Contract implements Serializable{
 			this.startDate = startDate;
 			this.status = status;
 			this.endDate = endDate;
+			this.companyId = companyId;
+			this.employeeId = employeeId;
 	}
 
 
@@ -129,12 +136,33 @@ public class Contract implements Serializable{
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
+	
+	public Long getCompanyId() {
+		return companyId;
+	}
+
+
+	public void setCompanyId(Long companyId) {
+		this.companyId = companyId;
+	}
+
+
+	public Long getEmployeeId() {
+		return employeeId;
+	}
+
+
+	public void setEmployeeId(Long employeeId) {
+		this.employeeId = employeeId;
+	}
 
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(durationInMonths, endDate, id, level, office, salaryPerMonth, startDate, status);
+		return Objects.hash(companyId, durationInMonths, employeeId, endDate, id, level, office, salaryPerMonth,
+				startDate, status);
 	}
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -145,7 +173,8 @@ public class Contract implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Contract other = (Contract) obj;
-		return Objects.equals(durationInMonths, other.durationInMonths) && Objects.equals(endDate, other.endDate)
+		return Objects.equals(companyId, other.companyId) && Objects.equals(durationInMonths, other.durationInMonths)
+			&& Objects.equals(employeeId, other.employeeId) && Objects.equals(endDate, other.endDate)
 			&& Objects.equals(id, other.id) && level == other.level && Objects.equals(office, other.office)
 			&& Objects.equals(salaryPerMonth, other.salaryPerMonth) && Objects.equals(startDate, other.startDate)
 			&& status == other.status;
