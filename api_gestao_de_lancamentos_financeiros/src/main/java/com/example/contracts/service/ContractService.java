@@ -70,4 +70,18 @@ public class ContractService {
 		}
 	}
 	
+	public ResponseEntity<Page<Contract>> findAllContractsByEmployee(Long employeeId, int page, int limit, String direction) {
+		this.logger.log(Level.INFO, "Buscando contratos por funcionário");
+		try {
+			Direction sortDirection = "desc".equalsIgnoreCase(direction) ? Direction.DESC : Direction.ASC;
+			Pageable pageable = PageRequest.of(page, limit, Sort.by(sortDirection, "id"));
+			Page<Contract> contracts = contractRepository.findAllContractsByEmployee(employeeId, pageable);
+			return ResponseEntity.ok().body(contracts);
+		}
+		catch(Exception error) {
+			this.logger.log(Level.SEVERE, "Erro ao buscar contratos por funcionário");
+			return ResponseEntity.internalServerError().build();
+		}
+	}
+	
 }
