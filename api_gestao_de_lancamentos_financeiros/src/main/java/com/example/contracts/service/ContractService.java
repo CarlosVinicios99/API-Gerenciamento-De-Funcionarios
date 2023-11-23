@@ -12,6 +12,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.example.companies.model.Company;
 import com.example.contracts.DTO.UpdateContractDTO;
 import com.example.contracts.model.Contract;
 import com.example.contracts.repository.ContractRepository;
@@ -132,8 +133,20 @@ public class ContractService {
 		}
 	}
 	
-	public ResponseEntity<Contract> deleteContractById(Long id){
-		
+	public ResponseEntity<Contract> deleteContractById(Long id) {
+		try {
+			Contract deletedContract = contractRepository.findById(id).get();
+			if(deletedContract != null) {
+				logger.log(Level.WARNING, "Nenhum contrato encontrado!");
+				return ResponseEntity.noContent().build();
+			}
+			contractRepository.deleteById(id);
+			return ResponseEntity.ok().build();
+		}
+		catch(Exception error) {
+			logger.log(Level.SEVERE, "Erro ao excluir um contrato por ID");
+			return ResponseEntity.internalServerError().build();
+		}
 	}
 	
 }
