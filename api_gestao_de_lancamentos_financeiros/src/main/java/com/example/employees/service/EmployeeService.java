@@ -75,7 +75,7 @@ public class EmployeeService {
 	public ResponseEntity<Employee> updateEmployee(UpdateEmployeeDTO employee){
 		logger.log(Level.INFO, "Atualizando as informações de um funcionário!");
 		try {
-			Employee updatedEmployee= employeeRepository.findById(employee.id()).get();
+			Employee updatedEmployee = employeeRepository.findById(employee.id()).get();
 			if(updatedEmployee == null) {
 				logger.log(Level.WARNING, "Nenhuma empresa encontrada!");
 				return ResponseEntity.noContent().build();
