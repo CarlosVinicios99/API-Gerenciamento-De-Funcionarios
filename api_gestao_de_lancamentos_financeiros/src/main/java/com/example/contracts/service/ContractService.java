@@ -12,11 +12,9 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.example.companies.model.Company;
 import com.example.contracts.DTO.UpdateContractDTO;
 import com.example.contracts.model.Contract;
 import com.example.contracts.repository.ContractRepository;
-import com.example.employees.model.Employee;
 
 @Service
 public class ContractService {
