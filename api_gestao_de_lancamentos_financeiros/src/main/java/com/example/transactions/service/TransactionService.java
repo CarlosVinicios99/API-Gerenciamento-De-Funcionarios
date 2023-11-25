@@ -12,8 +12,6 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.example.contracts.DTO.UpdateContractDTO;
-import com.example.contracts.model.Contract;
 import com.example.transactions.model.Transaction;
 import com.example.transactions.repository.TransactionRepository;
 
@@ -103,18 +101,18 @@ public class TransactionService {
 		}
 	}
 	
-	public ResponseEntity<Contract> deleteTransactionById(Long id) {
+	public ResponseEntity<Transaction> deleteTransactionById(Long id) {
 		try {
-			Contract deletedContract = contractRepository.findById(id).get();
-			if(deletedContract != null) {
-				logger.log(Level.WARNING, "Nenhum contrato encontrado!");
+			Transaction deletedTransaction = transactionRepository.findById(id).get();
+			if(deletedTransaction != null) {
+				logger.log(Level.WARNING, "Nenhuma transação encontrada!");
 				return ResponseEntity.noContent().build();
 			}
-			contractRepository.deleteById(id);
+			transactionRepository.deleteById(id);
 			return ResponseEntity.ok().build();
 		}
 		catch(Exception error) {
-			logger.log(Level.SEVERE, "Erro ao excluir um contrato por ID");
+			logger.log(Level.SEVERE, "Erro ao excluir uma transação por ID");
 			return ResponseEntity.internalServerError().build();
 		}
 	}
