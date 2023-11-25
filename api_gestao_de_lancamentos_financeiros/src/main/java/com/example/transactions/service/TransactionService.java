@@ -52,36 +52,22 @@ public class TransactionService {
 			this.logger.log(Level.WARNING, "Nenhuma transação encontrada!");
 			return ResponseEntity.noContent().build();
 		}
-		catch(Exception error) {
+		catch(Exception error) {W
 			this.logger.log(Level.SEVERE, "Erro ao buscar transação por ID");
 			return ResponseEntity.internalServerError().build();
 		}
 	}
 	
 	public ResponseEntity<Page<Transaction>> findAllTransactionsByCompany(Long companyId, int page, int limit, String direction){
-		this.logger.log(Level.INFO, "Buscando contratos por empresa");
+		this.logger.log(Level.INFO, "Buscando transações por empresa");
 		try {
 			Direction sortDirection = "desc".equalsIgnoreCase(direction) ? Direction.DESC : Direction.ASC;
 			Pageable pageable = PageRequest.of(page, limit, Sort.by(sortDirection, "id"));
-			Page<Contract> contracts = contractRepository.findAllContractsByCompany(companyId, pageable);
-			return ResponseEntity.ok().body(contracts);
+			Page<Transaction> transactions = transactionRepository.findAllTransactionsByCompany(companyId, pageable);
+			return ResponseEntity.ok().body(transactions);
 		}
 		catch(Exception error) {
 			this.logger.log(Level.SEVERE, "Erro ao buscar contratos por empresa");
-			return ResponseEntity.internalServerError().build();
-		}
-	}
-	
-	public ResponseEntity<Page<Contract>> findAllContractsByEmployee(Long employeeId, int page, int limit, String direction) {
-		this.logger.log(Level.INFO, "Buscando contratos por funcionário");
-		try {
-			Direction sortDirection = "desc".equalsIgnoreCase(direction) ? Direction.DESC : Direction.ASC;
-			Pageable pageable = PageRequest.of(page, limit, Sort.by(sortDirection, "id"));
-			Page<Contract> contracts = contractRepository.findAllContractsByEmployee(employeeId, pageable);
-			return ResponseEntity.ok().body(contracts);
-		}
-		catch(Exception error) {
-			this.logger.log(Level.SEVERE, "Erro ao buscar contratos por funcionário");
 			return ResponseEntity.internalServerError().build();
 		}
 	}
