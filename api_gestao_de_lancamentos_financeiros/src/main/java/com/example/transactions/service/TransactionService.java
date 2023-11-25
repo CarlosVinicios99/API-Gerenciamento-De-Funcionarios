@@ -42,23 +42,23 @@ public class TransactionService {
 		}
 	}
 	
-	public ResponseEntity<Contract> findContractById(Long id){
-		this.logger.log(Level.INFO, "Buscando contrato por ID");
+	public ResponseEntity<Transaction> findTransactionById(Long id){
+		this.logger.log(Level.INFO, "Buscando transação por ID");
 		try {
-			Contract searchedContract  = contractRepository.findById(id).get();
-			if(searchedContract != null) {
+			Transaction searchedTransaction  = transactionRepository.findById(id).get();
+			if(searchedTransaction != null) {
 				return ResponseEntity.ok().build();
 			}
-			this.logger.log(Level.WARNING, "Nenhum contrato encontrado!");
+			this.logger.log(Level.WARNING, "Nenhuma transação encontrada!");
 			return ResponseEntity.noContent().build();
 		}
 		catch(Exception error) {
-			this.logger.log(Level.SEVERE, "Erro ao buscar contrato por ID");
+			this.logger.log(Level.SEVERE, "Erro ao buscar transação por ID");
 			return ResponseEntity.internalServerError().build();
 		}
 	}
 	
-	public ResponseEntity<Page<Contract>> findAllContractsByCompany(Long companyId, int page, int limit, String direction){
+	public ResponseEntity<Page<Transaction>> findAllTransactionsByCompany(Long companyId, int page, int limit, String direction){
 		this.logger.log(Level.INFO, "Buscando contratos por empresa");
 		try {
 			Direction sortDirection = "desc".equalsIgnoreCase(direction) ? Direction.DESC : Direction.ASC;
