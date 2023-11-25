@@ -52,7 +52,7 @@ public class TransactionService {
 			this.logger.log(Level.WARNING, "Nenhuma transação encontrada!");
 			return ResponseEntity.noContent().build();
 		}
-		catch(Exception error) {W
+		catch(Exception error) {
 			this.logger.log(Level.SEVERE, "Erro ao buscar transação por ID");
 			return ResponseEntity.internalServerError().build();
 		}
@@ -72,53 +72,38 @@ public class TransactionService {
 		}
 	}
 	
-	public ResponseEntity<Contract> updateContract(UpdateContractDTO contract){
-		this.logger.log(Level.INFO, "Atualizando contrato");
+	public ResponseEntity<Transaction> updateTransaction(Transaction transaction){
+		this.logger.log(Level.INFO, "Atualizando transação");
 		try {
-			Contract updatedContract = contractRepository.findById(contract.id()).get();
-			if(updatedContract == null) {
-				logger.log(Level.WARNING, "Nenhum contrato encontrado!");
+			Transaction updatedTransaction = transactionRepository.findById(transaction.getId()).get();
+			if(updatedTransaction == null) {
+				logger.log(Level.WARNING, "Nenhuma transação encontrada!");
 				return ResponseEntity.noContent().build();
 			}
 			
-			if(!contract.office().isEmpty()) {
-				updatedContract.setOffice(contract.office());
+			if(!transaction.getType().toString().isEmpty()) {
+				updatedTransaction.setType(transaction.getType());
 			}
 			
-			if(!contract.level().toString().isEmpty()) {
-				updatedContract.setLevel(contract.level());
+			if(!transaction.getTransactionDate().toString().isEmpty()) {
+				updatedTransaction.setTransactionDate(transaction.getTransactionDate());
+			}
+						
+			if(!transaction.getAmount().toString().isEmpty()) {
+				transaction.setAmount(transaction.getAmount());
 			}
 			
-			if(!contract.salaryPerMonth().toString().isEmpty()) {
-				updatedContract.setSalaryPerMonth(contract.salaryPerMonth());
-			}
-			
-			if(!contract.durationInMonths().toString().isEmpty()) {
-				updatedContract.setDurationInMonths(contract.durationInMonths());
-			}
-			
-			if(!contract.startDate().toString().isEmpty()) {
-				updatedContract.setStartDate(contract.startDate());
-			}
-				
-			if(!contract.endDate().toString().isEmpty()) {
-				updatedContract.setEndDate(contract.endDate());
-			}
-				
-			if(!contract.status().toString().isEmpty()) {
-				updatedContract.setStatus(contract.status());
-			}
-			
+			transactionRepository.save(updatedTransaction);
 			return ResponseEntity.ok().build();
 					
 		}
 		catch(Exception error) {
-			logger.log(Level.SEVERE, "Erro ao atualizar informações de um contrato", error.getMessage());
+			logger.log(Level.SEVERE, "Erro ao atualizar informações de uma transação", error.getMessage());
 			return ResponseEntity.internalServerError().build();
 		}
 	}
 	
-	public ResponseEntity<Contract> deleteContractById(Long id) {
+	public ResponseEntity<Contract> deleteTransactionById(Long id) {
 		try {
 			Contract deletedContract = contractRepository.findById(id).get();
 			if(deletedContract != null) {

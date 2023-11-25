@@ -122,6 +122,7 @@ public class ContractService {
 				updatedContract.setStatus(contract.status());
 			}
 			
+			contractRepository.save(updatedContract);
 			return ResponseEntity.ok().build();
 					
 		}
