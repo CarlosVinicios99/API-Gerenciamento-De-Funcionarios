@@ -63,7 +63,7 @@ public class EmployeeService {
 		try {
 			Direction sortDirection = "desc".equalsIgnoreCase(direction) ? Direction.DESC : Direction.ASC;
 			Pageable pageable = PageRequest.of(page, limit, Sort.by(sortDirection, "id"));
-			Page<Employee> employees = employeeRepository.findAllEmployeesByCompany(companyId, pageable);
+			Page<Employee> employees = employeeRepository.findAllEmployeesByCompanyId(companyId, pageable);
 			return ResponseEntity.ok().body(employees);
 		}
 		catch(Exception error) {

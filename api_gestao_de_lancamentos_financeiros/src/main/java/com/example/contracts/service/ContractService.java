@@ -62,7 +62,7 @@ public class ContractService {
 		try {
 			Direction sortDirection = "desc".equalsIgnoreCase(direction) ? Direction.DESC : Direction.ASC;
 			Pageable pageable = PageRequest.of(page, limit, Sort.by(sortDirection, "id"));
-			Page<Contract> contracts = contractRepository.findAllContractsByCompany(companyId, pageable);
+			Page<Contract> contracts = contractRepository.findAllContractsByCompanyId(companyId, pageable);
 			return ResponseEntity.ok().body(contracts);
 		}
 		catch(Exception error) {
@@ -76,7 +76,7 @@ public class ContractService {
 		try {
 			Direction sortDirection = "desc".equalsIgnoreCase(direction) ? Direction.DESC : Direction.ASC;
 			Pageable pageable = PageRequest.of(page, limit, Sort.by(sortDirection, "id"));
-			Page<Contract> contracts = contractRepository.findAllContractsByEmployee(employeeId, pageable);
+			Page<Contract> contracts = contractRepository.findAllContractsByEmployeeId(employeeId, pageable);
 			return ResponseEntity.ok().body(contracts);
 		}
 		catch(Exception error) {

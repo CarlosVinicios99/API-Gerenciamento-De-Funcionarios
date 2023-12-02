@@ -78,7 +78,7 @@ public class TransactionService {
 		try {
 			Direction sortDirection = "desc".equalsIgnoreCase(direction) ? Direction.DESC : Direction.ASC;
 			Pageable pageable = PageRequest.of(page, limit, Sort.by(sortDirection, "id"));
-			Page<Transaction> transactions = transactionRepository.findAllTransactionsByCompany(companyId, pageable);
+			Page<Transaction> transactions = transactionRepository.findAllTransactionsByCompanyId(companyId, pageable);
 			return ResponseEntity.status(HttpStatus.OK).body(transactions);
 		}
 		catch(Exception error) {

@@ -33,19 +33,19 @@ public class Employee implements Serializable {
 	private String checkingAccount;
 	
 	@Column(name = "id_company")
-	private Long idCompany;
+	private Long companyId;
 	
 	public Employee() {
 		
 	}
 
-	public Employee(Long id, String fullName, String email, String agency, String checkingAccount, Long idCompany) {
+	public Employee(Long id, String fullName, String email, String agency, String checkingAccount, Long companyId) {
 		this.id = id;
 		this.fullName = fullName;
 		this.email = email;
 		this.agency = agency;
 		this.checkingAccount = checkingAccount;
-		this.idCompany = idCompany;
+		this.companyId = companyId;
 	}
 
 
@@ -89,17 +89,17 @@ public class Employee implements Serializable {
 		this.checkingAccount = checkingAccount;
 	}
 	
-	public Long getIdCompany() {
-		return idCompany;
+	public Long companyId() {
+		return companyId;
 	}
 
-	public void setIdCompany(Long idCompany) {
-		this.idCompany = idCompany;
+	public void setCompanyId(Long companyId) {
+		this.companyId = companyId;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(agency, checkingAccount, email, fullName, id, idCompany);
+		return Objects.hash(agency, checkingAccount, email, fullName, id, companyId);
 	}
 
 	@Override
@@ -113,7 +113,7 @@ public class Employee implements Serializable {
 		Employee other = (Employee) obj;
 		return Objects.equals(agency, other.agency) && Objects.equals(checkingAccount, other.checkingAccount)
 			&& Objects.equals(email, other.email) && Objects.equals(fullName, other.fullName)
-			&& Objects.equals(id, other.id) && Objects.equals(idCompany, other.idCompany);
+			&& Objects.equals(id, other.id) && Objects.equals(companyId, other.companyId);
 	}
 	
 	
