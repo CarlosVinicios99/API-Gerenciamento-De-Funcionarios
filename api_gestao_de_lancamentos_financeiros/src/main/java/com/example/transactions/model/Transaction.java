@@ -28,23 +28,26 @@ public class Transaction implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private TransactionType type;
 	
-	@Column(nullable = false)
+	@Column()
 	private Date transactionDate;
 	
-	@Column(nullable = false)
+	@Column()
 	private Double amount;
+	
+	@Column(name = "id_company")
+	private Long companyId;
 	
 	
 	public Transaction() {
 		
 	}
-
 	
-	public Transaction(Long id, TransactionType type, Date transactionDate, Double amount) {
+	public Transaction(Long id, TransactionType type, Date transactionDate, Double amount, Long companyId) {
 		this.id = id;
 		this.type = type;
 		this.transactionDate = transactionDate;
 		this.amount = amount;
+		this.companyId = companyId;
 	}
 
 
@@ -72,7 +75,6 @@ public class Transaction implements Serializable {
 		this.amount = amount;
 	}
 
-
 	public TransactionType getType() {
 		return type;
 	}
@@ -80,11 +82,19 @@ public class Transaction implements Serializable {
 	public void setType(TransactionType type) {
 		this.type = type;
 	}
+	
+	public Long getCompanyId() {
+		return companyId;
+	}
+	
+	public void setCompanyId(Long companyId) {
+		this.companyId = companyId;
+	}
 
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(amount, id, transactionDate, type);
+		return Objects.hash(amount, companyId, id, transactionDate, type);
 	}
 
 	@Override
@@ -96,8 +106,9 @@ public class Transaction implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Transaction other = (Transaction) obj;
-		return Objects.equals(amount, other.amount) && Objects.equals(id, other.id)
-			&& Objects.equals(transactionDate, other.transactionDate) && type == other.type;
-	}	
+		return Objects.equals(amount, other.amount) && Objects.equals(companyId, other.companyId)
+			&& Objects.equals(id, other.id) && Objects.equals(transactionDate, other.transactionDate)
+			&& type == other.type;
+	}
 	
 }

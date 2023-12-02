@@ -13,7 +13,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.example.accounts.service.AccountService;
 import com.example.transactions.model.Transaction;
+import com.example.transactions.model.enums.TransactionType;
 import com.example.transactions.repository.TransactionRepository;
 
 @Service
@@ -24,10 +26,22 @@ public class TransactionService {
 	@Autowired
 	private TransactionRepository transactionRepository;
 	
+	@Autowired
+	private AccountService accountService;
+	
+	private Boolean confirmTransaction(Transaction transaction) {
+		if(transaction.getType() == TransactionType.DEPOSIT) {
+			return this.accountService.deposit(transaction.getCompanyId(), transaction.getAmount());
+		}
+		return this.accountService.withdraw(c, amount);
+	}
 	
 	public ResponseEntity<Transaction> createTransaction(Transaction newTransaction) {
 		this.logger.log(Level.INFO, "Criação de transação");
 		try {
+			if(confirmTransaction(newTransaction)) {
+				
+			}
 			Transaction createdTransaction = transactionRepository.save(newTransaction);
 			if(createdTransaction != null) {
 				return ResponseEntity.status(HttpStatus.OK).build();
