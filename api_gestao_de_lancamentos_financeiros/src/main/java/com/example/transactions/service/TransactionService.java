@@ -40,14 +40,16 @@ public class TransactionService {
 		this.logger.log(Level.INFO, "Criação de transação");
 		try {
 			if(confirmTransaction(newTransaction)) {
-				
+				Transaction createdTransaction = transactionRepository.save(newTransaction);
+				if(createdTransaction != null) {
+					return ResponseEntity.status(HttpStatus.OK).build();
+				}
+				this.logger.log(Level.SEVERE, "Erro ao cadastrar uma transação");
+				return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
+
 			}
-			Transaction createdTransaction = transactionRepository.save(newTransaction);
-			if(createdTransaction != null) {
-				return ResponseEntity.status(HttpStatus.OK).build();
-			}
-			this.logger.log(Level.SEVERE, "Erro ao cadastrar uma transação");
-			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
+			this.logger.log(Level.SEVERE, "Transação não confirmada devido a valores inconsistentes do saldo ou da transação");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
 		catch(Exception error) {
 			this.logger.log(Level.SEVERE, "Erro ao cadastrar uma transação");
