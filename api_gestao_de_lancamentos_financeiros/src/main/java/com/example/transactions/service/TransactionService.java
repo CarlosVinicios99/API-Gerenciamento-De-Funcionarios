@@ -33,7 +33,7 @@ public class TransactionService {
 		if(transaction.getType() == TransactionType.DEPOSIT) {
 			return this.accountService.deposit(transaction.getCompanyId(), transaction.getAmount());
 		}
-		return this.accountService.withdraw(c, amount);
+		return this.accountService.withdraw(transaction.getCompanyId(), transaction.getAmount());
 	}
 	
 	public ResponseEntity<Transaction> createTransaction(Transaction newTransaction) {
@@ -81,37 +81,6 @@ public class TransactionService {
 		}
 		catch(Exception error) {
 			this.logger.log(Level.SEVERE, "Erro ao buscar contratos por empresa");
-			return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).build();
-		}
-	}
-	
-	public ResponseEntity<Transaction> updateTransaction(Transaction transaction){
-		this.logger.log(Level.INFO, "Atualizando transação");
-		try {
-			Transaction updatedTransaction = transactionRepository.findById(transaction.getId()).get();
-			if(updatedTransaction == null) {
-				logger.log(Level.WARNING, "Nenhuma transação encontrada!");
-				return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-			}
-			
-			if(!transaction.getType().toString().isEmpty()) {
-				updatedTransaction.setType(transaction.getType());
-			}
-			
-			if(!transaction.getTransactionDate().toString().isEmpty()) {
-				updatedTransaction.setTransactionDate(transaction.getTransactionDate());
-			}
-						
-			if(!transaction.getAmount().toString().isEmpty()) {
-				transaction.setAmount(transaction.getAmount());
-			}
-			
-			transactionRepository.save(updatedTransaction);
-			return ResponseEntity.status(HttpStatus.OK).build();
-					
-		}
-		catch(Exception error) {
-			logger.log(Level.SEVERE, "Erro ao atualizar informações de uma transação", error.getMessage());
 			return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).build();
 		}
 	}

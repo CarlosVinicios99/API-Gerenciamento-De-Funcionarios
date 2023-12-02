@@ -46,11 +46,6 @@ public class TransactionController {
 		return this.transactionService.findAllTransactionsByCompany(companyId, page, limit, direction);
 	}
 	
-	@PutMapping()
-	public ResponseEntity<Transaction> updateTransaction(@RequestBody Transaction transaction){
-		return this.transactionService.updateTransaction(transaction);
-	}
-	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Transaction> deleteTransactionById(@PathVariable Long id){
 		return this.transactionService.deleteTransactionById(id);
