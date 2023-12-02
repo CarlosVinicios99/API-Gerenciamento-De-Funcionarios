@@ -39,7 +39,7 @@ public class ContractController {
 	@GetMapping("/company/{companyId}")
 	public ResponseEntity<Page<Contract>> findAllContractsByCompany(
 		@PathVariable Long companyId,
-		@RequestParam(defaultValue = "0") int page, 
+		@RequestParam(defaultValue = "0") int page,  
 		@RequestParam(defaultValue = "10") int limit, 
 		@RequestParam(defaultValue = "asc") String direction
 	){

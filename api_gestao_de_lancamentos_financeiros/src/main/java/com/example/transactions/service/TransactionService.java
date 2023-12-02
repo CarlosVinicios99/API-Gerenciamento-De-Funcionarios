@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -29,14 +30,14 @@ public class TransactionService {
 		try {
 			Transaction createdTransaction = transactionRepository.save(newTransaction);
 			if(createdTransaction != null) {
-				return ResponseEntity.ok().build();
+				return ResponseEntity.status(HttpStatus.OK).build();
 			}
 			this.logger.log(Level.SEVERE, "Erro ao cadastrar uma transação");
-			return ResponseEntity.unprocessableEntity().build();
+			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
 		}
 		catch(Exception error) {
 			this.logger.log(Level.SEVERE, "Erro ao cadastrar uma transação");
-			return ResponseEntity.internalServerError().build();
+			return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).build();
 		}
 	}
 	
@@ -45,14 +46,14 @@ public class TransactionService {
 		try {
 			Transaction searchedTransaction  = transactionRepository.findById(id).get();
 			if(searchedTransaction != null) {
-				return ResponseEntity.ok().build();
+				return ResponseEntity.status(HttpStatus.OK).build();
 			}
 			this.logger.log(Level.WARNING, "Nenhuma transação encontrada!");
-			return ResponseEntity.noContent().build();
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}
 		catch(Exception error) {
 			this.logger.log(Level.SEVERE, "Erro ao buscar transação por ID");
-			return ResponseEntity.internalServerError().build();
+			return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).build();
 		}
 	}
 	
@@ -62,11 +63,11 @@ public class TransactionService {
 			Direction sortDirection = "desc".equalsIgnoreCase(direction) ? Direction.DESC : Direction.ASC;
 			Pageable pageable = PageRequest.of(page, limit, Sort.by(sortDirection, "id"));
 			Page<Transaction> transactions = transactionRepository.findAllTransactionsByCompany(companyId, pageable);
-			return ResponseEntity.ok().body(transactions);
+			return ResponseEntity.status(HttpStatus.OK).body(transactions);
 		}
 		catch(Exception error) {
 			this.logger.log(Level.SEVERE, "Erro ao buscar contratos por empresa");
-			return ResponseEntity.internalServerError().build();
+			return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).build();
 		}
 	}
 	
@@ -76,7 +77,7 @@ public class TransactionService {
 			Transaction updatedTransaction = transactionRepository.findById(transaction.getId()).get();
 			if(updatedTransaction == null) {
 				logger.log(Level.WARNING, "Nenhuma transação encontrada!");
-				return ResponseEntity.noContent().build();
+				return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 			}
 			
 			if(!transaction.getType().toString().isEmpty()) {
@@ -92,12 +93,12 @@ public class TransactionService {
 			}
 			
 			transactionRepository.save(updatedTransaction);
-			return ResponseEntity.ok().build();
+			return ResponseEntity.status(HttpStatus.OK).build();
 					
 		}
 		catch(Exception error) {
 			logger.log(Level.SEVERE, "Erro ao atualizar informações de uma transação", error.getMessage());
-			return ResponseEntity.internalServerError().build();
+			return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).build();
 		}
 	}
 	
@@ -106,14 +107,14 @@ public class TransactionService {
 			Transaction deletedTransaction = transactionRepository.findById(id).get();
 			if(deletedTransaction != null) {
 				logger.log(Level.WARNING, "Nenhuma transação encontrada!");
-				return ResponseEntity.noContent().build();
+				return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 			}
 			transactionRepository.deleteById(id);
-			return ResponseEntity.ok().build();
+			return ResponseEntity.status(HttpStatus.OK).build();
 		}
 		catch(Exception error) {
 			logger.log(Level.SEVERE, "Erro ao excluir uma transação por ID");
-			return ResponseEntity.internalServerError().build();
+			return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).build();
 		}
 	}
 	
