@@ -47,7 +47,7 @@ public class EmployeeController {
 	}
 	
 	@Operation(
-		summary = "Busca todos os funcionários da empresa"
+		summary = "Busca todos os funcionários por empresa, de forma paginada"
 	)
 	@GetMapping("/company/{companyId}")
 	public ResponseEntity<Page<Employee>> findEmployeesByCompany(

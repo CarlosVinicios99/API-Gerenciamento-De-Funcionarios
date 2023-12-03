@@ -30,18 +30,24 @@ public class ContractController {
 	
 	
 	@Operation(
-		summary = ""
+		summary = "Cria um novo contrato"
 	)
 	@PostMapping()
 	public ResponseEntity<Contract> createContract(@RequestBody Contract contract){
 		return contractService.createContract(contract);
 	}
 	
+	@Operation(
+		summary = "Busca um contrato por ID"
+	)
 	@GetMapping("/{id}")
 	public ResponseEntity<Contract> findContractById(@PathVariable Long id){
 		return contractService.findContractById(id);
 	}
 	
+	@Operation(
+		summary = "Busca todos os contratos por empresa de forma paginada"
+	)
 	@GetMapping("/company/{companyId}")
 	public ResponseEntity<Page<Contract>> findAllContractsByCompany(
 		@PathVariable Long companyId,
@@ -52,6 +58,9 @@ public class ContractController {
 		return contractService.findAllContractsByCompany(companyId, page, limit, direction);
 	}
 	
+	@Operation(
+		summary = "Busca todos os contratos por funcionário, de forma paginada"
+	)
 	@GetMapping("/employee/{employeeId}")
 	public ResponseEntity<Page<Contract>> findAllContractsByEmployee(
 		@PathVariable Long employeeId,
@@ -62,11 +71,17 @@ public class ContractController {
 		return contractService.findAllContractsByEmployee(employeeId, page, limit, direction);
 	}
 	
+	@Operation(
+		summary = "Atualiza as informações de um contrato"
+	)
 	@PutMapping()
 	public ResponseEntity<Contract> updateCompany(@RequestBody UpdateContractDTO contract){
 		return contractService.updateContract(contract);
 	}
 	
+	@Operation(
+		summary = "Excluí um contrato por ID"
+	)
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Contract> deleteCompanybyId(@PathVariable Long id){
 		return contractService.deleteContractById(id);
