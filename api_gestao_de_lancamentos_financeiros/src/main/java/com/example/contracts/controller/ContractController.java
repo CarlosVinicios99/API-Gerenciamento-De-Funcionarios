@@ -19,10 +19,12 @@ import com.example.contracts.model.Contract;
 import com.example.contracts.service.ContractService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RequestMapping("/contracts")
 @CrossOrigin
 @RestController
+@Tag(name = "Contract", description = "Serviços de Contratos")
 public class ContractController {
 	
 	@Autowired
