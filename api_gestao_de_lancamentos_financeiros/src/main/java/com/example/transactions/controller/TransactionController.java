@@ -38,7 +38,7 @@ public class TransactionController {
 	}
 	
 	@Operation(
-		summary = "Busca uma nova transação por ID"
+		summary = "Busca uma transação por ID"
 	)
 	@GetMapping("/{id}")
 	public ResponseEntity<Transaction> findTransactionById(@PathVariable Long id){

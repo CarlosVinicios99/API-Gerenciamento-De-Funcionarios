@@ -18,6 +18,8 @@ import com.example.contracts.DTO.UpdateContractDTO;
 import com.example.contracts.model.Contract;
 import com.example.contracts.service.ContractService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RequestMapping("/contracts")
 @CrossOrigin
 @RestController
@@ -26,6 +28,10 @@ public class ContractController {
 	@Autowired
 	private ContractService contractService;
 	
+	
+	@Operation(
+		summary = ""
+	)
 	@PostMapping()
 	public ResponseEntity<Contract> createContract(@RequestBody Contract contract){
 		return contractService.createContract(contract);

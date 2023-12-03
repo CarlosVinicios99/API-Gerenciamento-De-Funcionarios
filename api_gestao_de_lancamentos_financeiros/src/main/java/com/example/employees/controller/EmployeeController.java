@@ -17,25 +17,38 @@ import com.example.employees.DTO.UpdateEmployeeDTO;
 import com.example.employees.model.Employee;
 import com.example.employees.service.EmployeeService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RequestMapping("/employees")
 @RestController
 @CrossOrigin
+@Tag(name = "Employee", description = "Serviços de Funcionários")
 public class EmployeeController {
 	
 	@Autowired
 	EmployeeService employeeService;
 	
 	
+	@Operation(
+		summary = "Cadastra um novo funcionário"
+	)
 	@PostMapping()
 	public ResponseEntity<Employee> createEmployee(Employee employee){
 		return employeeService.createEmployee(employee);
 	}
 	
+	@Operation(
+		summary = "Busca um funcionário por ID"
+	)
 	@GetMapping("/{id}")
 	public ResponseEntity<Employee> findEmployeeById(Long id){
 		return employeeService.findByEmployeeById(id);
 	}
 	
+	@Operation(
+		summary = "Busca todos os funcionários da empresa"
+	)
 	@GetMapping("/company/{companyId}")
 	public ResponseEntity<Page<Employee>> findEmployeesByCompany(
 		@PathVariable Long companyId,
@@ -46,11 +59,17 @@ public class EmployeeController {
 		return employeeService.findAllEmployeesByCompany(companyId, page, limit, direction);
 	}
 	
+	@Operation(
+		summary = "Atualiza as informações de um funcionário"
+	)
 	@PutMapping()
 	public ResponseEntity<Employee> updateEmployee(UpdateEmployeeDTO employee){
 		return employeeService.updateEmployee(employee);
 	}
 	
+	@Operation(
+		summary = "Excluí um funcionário por ID"
+	)
 	@DeleteMapping()
 	public ResponseEntity<Employee> deleteEmployeeById(Long id){
 		return employeeService.deleteEmployeeById(id);
