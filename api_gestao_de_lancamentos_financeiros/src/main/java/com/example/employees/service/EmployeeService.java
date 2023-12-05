@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -32,30 +33,30 @@ public class EmployeeService {
 			System.out.println(newEmployee.getAgency());
 			Employee createdEmployee = employeeRepository.save(newEmployee);
 			if(createdEmployee != null) {
-				return ResponseEntity.ok().build();
+				return ResponseEntity.status(HttpStatus.OK).build();
 			}
 			this.logger.log(Level.SEVERE, "Erro ao cadastrar um funcionário");
-			return ResponseEntity.unprocessableEntity().build();
+			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
 		}
 		catch(Exception error) {
 			this.logger.log(Level.SEVERE, "Erro ao cadastrar funcionário");
-			return ResponseEntity.internalServerError().build();
+			return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).build();
 		}
 	}
 	
 	public ResponseEntity<Employee> findByEmployeeById(Long id){
-		this.logger.log(Level.INFO, "Buscar um funcionário por ID");
+		this.logger.log(Level.INFO, "Buscando um funcionário por ID");
 		try {
 			Employee searchedEmployee = employeeRepository.findById(id).get();
 			if(searchedEmployee != null) {
-				return ResponseEntity.ok().body(searchedEmployee);
+				return ResponseEntity.status(HttpStatus.OK).body(searchedEmployee);
 			}
 			logger.log(Level.WARNING, "Nenhum funcionário encontrado!");
-			return ResponseEntity.noContent().build();
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}
 		catch(Exception error) {
 			this.logger.log(Level.SEVERE, "Erro ao buscar funcionário por ID");
-			return ResponseEntity.internalServerError().build();
+			return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).build();
 		}
 	}
 	
@@ -65,11 +66,11 @@ public class EmployeeService {
 			Direction sortDirection = "desc".equalsIgnoreCase(direction) ? Direction.DESC : Direction.ASC;
 			Pageable pageable = PageRequest.of(page, limit, Sort.by(sortDirection, "id"));
 			Page<Employee> employees = employeeRepository.findAllEmployeesByCompanyId(companyId, pageable);
-			return ResponseEntity.ok().body(employees);
+			return ResponseEntity.status(HttpStatus.OK).body(employees);
 		}
 		catch(Exception error) {
 			this.logger.log(Level.SEVERE, "Erro ao buscar funcionários por empresa");
-			return ResponseEntity.internalServerError().build();
+			return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).build();
 		}
 	}
 	
@@ -79,7 +80,7 @@ public class EmployeeService {
 			Employee updatedEmployee = employeeRepository.findById(employee.id()).get();
 			if(updatedEmployee == null) {
 				logger.log(Level.WARNING, "Nenhuma empresa encontrada!");
-				return ResponseEntity.noContent().build();
+				return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 			}
 			
 			if(!employee.email().isEmpty()) {
@@ -99,12 +100,12 @@ public class EmployeeService {
 			}
 			
 			employeeRepository.save(updatedEmployee);
-			return ResponseEntity.ok().build();
+			return ResponseEntity.status(HttpStatus.OK).build();
 					
 		}
 		catch(Exception error) {
 			logger.log(Level.SEVERE, "Erro ao atualizar informações de um funcionário", error.getMessage());
-			return ResponseEntity.internalServerError().build();
+			return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).build();
 		}
 	}
 	
@@ -112,16 +113,16 @@ public class EmployeeService {
 		logger.log(Level.INFO, "Excluindo um funcionário por ID");
 		try {
 			Employee deletedEmployee = employeeRepository.findById(id).get();
-			if(deletedEmployee != null) {
+			if(deletedEmployee == null) {
 				logger.log(Level.WARNING, "Nenhum funcionário encontrado!");
-				return ResponseEntity.noContent().build();
+				return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 			}
 			employeeRepository.deleteById(id);
-			return ResponseEntity.ok().build();
+			return ResponseEntity.status(HttpStatus.OK).build();
 		}
 		catch(Exception error) {
 			logger.log(Level.SEVERE, "Erro ao excluir uma empresa por ID");
-			return ResponseEntity.internalServerError().build();
+			return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).build();
 		}
 	}
 		

@@ -71,7 +71,7 @@ public class EmployeeController {
 	@Operation(
 		summary = "Excluí um funcionário por ID"
 	)
-	@DeleteMapping()
+	@DeleteMapping("/{id}")
 	public ResponseEntity<Employee> deleteEmployeeById(@PathVariable Long id){
 		return employeeService.deleteEmployeeById(id);
 	}
