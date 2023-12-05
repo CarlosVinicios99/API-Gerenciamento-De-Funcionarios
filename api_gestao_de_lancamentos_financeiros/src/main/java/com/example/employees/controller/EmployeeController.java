@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,7 +35,7 @@ public class EmployeeController {
 		summary = "Cadastra um novo funcionário"
 	)
 	@PostMapping()
-	public ResponseEntity<Employee> createEmployee(Employee employee){
+	public ResponseEntity<Employee> createEmployee(@RequestBody Employee employee){
 		return employeeService.createEmployee(employee);
 	}
 	
@@ -42,7 +43,7 @@ public class EmployeeController {
 		summary = "Busca um funcionário por ID"
 	)
 	@GetMapping("/{id}")
-	public ResponseEntity<Employee> findEmployeeById(Long id){
+	public ResponseEntity<Employee> findEmployeeById(@PathVariable Long id){
 		return employeeService.findByEmployeeById(id);
 	}
 	
@@ -63,7 +64,7 @@ public class EmployeeController {
 		summary = "Atualiza as informações de um funcionário"
 	)
 	@PutMapping()
-	public ResponseEntity<Employee> updateEmployee(UpdateEmployeeDTO employee){
+	public ResponseEntity<Employee> updateEmployee(@RequestBody UpdateEmployeeDTO employee){
 		return employeeService.updateEmployee(employee);
 	}
 	
@@ -71,7 +72,7 @@ public class EmployeeController {
 		summary = "Excluí um funcionário por ID"
 	)
 	@DeleteMapping()
-	public ResponseEntity<Employee> deleteEmployeeById(Long id){
+	public ResponseEntity<Employee> deleteEmployeeById(@PathVariable Long id){
 		return employeeService.deleteEmployeeById(id);
 	}
 	

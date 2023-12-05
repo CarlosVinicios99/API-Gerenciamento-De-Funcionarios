@@ -29,6 +29,7 @@ public class EmployeeService {
 	public ResponseEntity<Employee> createEmployee(Employee newEmployee){
 		this.logger.log(Level.INFO, "Cadastrando um funcionário");
 		try {
+			System.out.println(newEmployee.getAgency());
 			Employee createdEmployee = employeeRepository.save(newEmployee);
 			if(createdEmployee != null) {
 				return ResponseEntity.ok().build();

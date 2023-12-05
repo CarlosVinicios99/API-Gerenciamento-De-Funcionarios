@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -37,22 +38,22 @@ public class CompanyService {
 			Account newAccount = accountService.createAccount();
 			if(newAccount == null) {
 				logger.log(Level.SEVERE, "Erro ao cadastrar uma empresa");
-				return ResponseEntity.internalServerError().build();
+				return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).build();
 			}
 			
 			newCompany.setAccount(newAccount);
 			Company createdCompany = companyRepository.save(newCompany);
 			
 			if(createdCompany != null) {
-				return ResponseEntity.ok().build();
+				return ResponseEntity.status(HttpStatus.OK).build();
 			}
 			
 			logger.log(Level.SEVERE, "Erro ao cadastrar uma empresa, informações de cadastro incorretas!");
-			return ResponseEntity.unprocessableEntity().build();
+			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
 		}
 		catch(Exception error) {
 			logger.log(Level.SEVERE, "Erro ao cadastrar uma empresa ", error.getMessage());
-			return ResponseEntity.internalServerError().build();
+			return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).build();
 		}
 	}
 	
@@ -61,14 +62,14 @@ public class CompanyService {
 		try {
 			Company searchedCompany = companyRepository.findById(id).get();
 			if(searchedCompany != null) {
-				return ResponseEntity.ok().body(searchedCompany);
+				return ResponseEntity.status(HttpStatus.OK).body(searchedCompany);
 			}
 			logger.log(Level.WARNING, "Nenhuma empresa encontrada!");
-			return ResponseEntity.noContent().build();
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}
 		catch(Exception error) {
 			logger.log(Level.SEVERE, "Erro ao buscar uma empresa por ID ", error.getMessage());
-			return ResponseEntity.internalServerError().build();
+			return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).build();
 		}
 	}
 	
@@ -78,11 +79,11 @@ public class CompanyService {
 			Direction sortDirection = "desc".equalsIgnoreCase(direction) ? Direction.DESC : Direction.ASC;
 			Pageable pageable = PageRequest.of(page, limit, Sort.by(sortDirection, "id"));
 			Page<Company> companies = companyRepository.findAll(pageable);
-			return ResponseEntity.ok().body(companies);
+			return ResponseEntity.status(HttpStatus.OK).body(companies);
 		}
 		catch(Exception error) {
 			logger.log(Level.SEVERE, "Erro ao buscar uma empresa por ID ", error.getMessage());
-			return ResponseEntity.internalServerError().build();
+			return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).build();
 		}
 	}
 	
@@ -92,7 +93,7 @@ public class CompanyService {
 			Company updatedCompany = companyRepository.findById(company.id()).get();
 			if(updatedCompany == null) {
 				logger.log(Level.WARNING, "Nenhuma empresa encontrada!");
-				return ResponseEntity.noContent().build();
+				return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 			}
 			
 			if(!company.email().isEmpty()) {
@@ -112,12 +113,12 @@ public class CompanyService {
 			}
 			
 			companyRepository.save(updatedCompany);
-			return ResponseEntity.ok().build();
+			return ResponseEntity.status(HttpStatus.OK).build();
 					
 		}
 		catch(Exception error) {
 			logger.log(Level.SEVERE, "Erro ao atualizar informações de uma empresa ", error.getMessage());
-			return ResponseEntity.internalServerError().build();
+			return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).build();
 		}
 	}
 	
@@ -125,16 +126,16 @@ public class CompanyService {
 		logger.log(Level.INFO, "Excluindo uma empresa por ID");
 		try {
 			Company deletedCompany = companyRepository.findById(id).get();
-			if(deletedCompany != null) {
+			if(deletedCompany == null) {
 				logger.log(Level.WARNING, "Nenhuma empresa encontrada!");
-				return ResponseEntity.noContent().build();
+				return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 			}
 			companyRepository.deleteById(id);
-			return ResponseEntity.ok().build();
+			return ResponseEntity.status(HttpStatus.OK).build();
 		}
 		catch(Exception error) {
 			logger.log(Level.SEVERE, "Erro ao excluir uma empresa por ID");
-			return ResponseEntity.internalServerError().build();
+			return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).build();
 		}
 	}
 	
